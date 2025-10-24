@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face2Music - Wenda Zhang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffd700;
+        }
+
+        .project {
+            padding: 6rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .project h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .project video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .project p, .project li {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .project h2 {
+            font-size: 1.8rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .project ul {
+            list-style: disc;
+            padding-left: 2rem;
+        }
+
+        .project .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffd700;
+            color: #000;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .project .download-btn:hover {
+            background-color: #e6c200;
+        }
+
+        @media (max-width: 768px) {
+            .project h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav ul li a {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Wenda Zhang</div>
+        <ul>
+            <li><a href="../index.html#home">Home</a></li>
+            <li><a href="../index.html#portfolio">Portfolio</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="project">
+        <h1>Face2Music</h1>
+        <img src="../resources/face2music_full.png" alt="Face2Music Project">
+        <p><strong>Tags:</strong> Max/MSP, Sequencer, Karplus-Strong, FaceOSC, Loop</p>
+        <h2>Face2Music Overview</h2>
+        <p>Face2Music is a face-controlled sequencer powered by FaceOSC, a standalone desktop program that tracks facial features via camera, such as the coordinate of the user’s face relative to the screen, and transmits them over Open Sound Control (OSC). Specifically, the x position modulates the note’s brightness, the y position influences resonance, the distance from the camera adjusts the filter cutoff, and the mouth height determines sustain. The patch employs a randomized sequencer with an eight-note pool, reshuffled every fourth repetition, generating dynamic musical patterns. Additionally, the patch integrates a loop module facilitating the recording, playback, and pausing of three independent tracks.</p>
+        <h2>Guidelines</h2>
+        <ul>
+            <li>Download and run FaceOSC.exe.</li>
+            <li>Turn on the camera input.</li>
+            <li>Modify the sequencer and press Start.</li>
+            <li>Move around to obtain different timbres.</li>
+            <li>Make use of the three available loops.</li>
+            <li>Have fun!</li>
+        </ul>
+        <h2>Rationale</h2>
+        <p>Making music production accessible to beginners has always been one of my academic endeavors. This passion was sparked during my time volunteering as a music teacher for children at a local community center. Many of the kids, aged 7 to 8, struggled to connect with music and perceive its universality and possibility, much like I did at their age. Growing up in China, my exposure to music was limited to classical and pop, but hearing Guns N' Roses’ "Welcome to the Jungle" revealed how diverse and powerful music could be. This inspired me to create tools that lower barriers to music production, enabling children and beginners to explore their creativity without technical limitations, which is why Face2Music exists.</p>
+        <h2>Technical Implementation</h2>
+        <p>To make this idea work—using facial features to generate music—I first received messages from FaceOSC, scaled them to a proper range, and stored them in variables. While additional features like eyebrow height and nostril flare could be extracted, I selected the most readily adjustable parameters for optimal user interaction.</p>
+        <p>The randomized sequencer is implemented via a multislider, reshuffled using zl.scramble, with each note triggered by a metro set to 500 ms. After converting the notes to MIDI, they are routed to a Karplus-Strong algorithm to simulate realistic string sounds. This begins with a buffer of random noise using “rand~ 600” to emulate the initial energy of a pluck, followed by a onepole low-pass filter through averaging and feedback. Over time, this process replicates a real string’s decay, evolving from a complex, harmonic-rich sound to a simpler waveform that eventually fades out.</p>
+        <p>The resulting audio signal is played and sent to the patch’s looping and playback section, which enables dynamic audio manipulation through three independent loops (Loop 1, Loop 2, Loop 3), a Play/Pause control, and a Record function. Each loop uses a buffer~ to store audio, with a record~ object capturing sound when toggled via sel 0 1, while clocker ensures synchronized timing. The Play/Pause section uses three groove~ objects to play audio from the buffers, allowing users to start or pause the loops seamlessly while the Record section captures the overall output into a buffer~ loop.</p>
+        <button class="download-btn" onclick="downloadFile()">Download Max/MSP File</button>
+        <video controls>
+            <source src="../resources/face2music_explanation.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+    <script>
+        function downloadFile() {
+            const link = document.createElement('a');
+            link.href = '../resources/Face2Music.maxpat';
+            link.download = 'face2music.maxpat';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
