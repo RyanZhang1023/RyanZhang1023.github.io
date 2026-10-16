@@ -272,7 +272,7 @@
           <h2>Explore both models<br>in 3D.</h2>
         </div>
         <p class="section-description" style="margin-bottom:26px">
-          Both viewers load native STEP files in the browser (OpenCascade + Three.js). Drag to orbit, scroll to zoom, right-drag to pan.
+          Drag to orbit, scroll to zoom, right-drag to pan.
         </p>
 
         <div class="viewer-grid">
@@ -520,9 +520,11 @@
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       container.appendChild(renderer.domElement);
 
+
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.08;
+      controls.zoomSpeed = 0.5;
 
       scene.add(new THREE.AmbientLight(0xffffff, 0.55));
       const d1 = new THREE.DirectionalLight(0xffffff, 0.85);
@@ -558,6 +560,8 @@
         let dist = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * 1.7;
         camera.position.set(center.x + dist * 0.55, center.y + dist * 0.4, center.z + dist * 0.7);
         controls.target.copy(center);
+        controls.minDistance = dist * 0.3;
+        controls.maxDistance = dist * 3;
         controls.update();
       }
 
