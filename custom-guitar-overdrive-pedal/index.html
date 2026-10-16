@@ -6,42 +6,8 @@
   <meta name="theme-color" content="#171717">
   <meta name="description" content="A custom guitar overdrive pedal designed in KiCad, assembled by hand, and housed in a 3D-printed enclosure.">
   <title>Custom Guitar Overdrive Pedal — Ryan Zhang</title>
+  <link rel="stylesheet" href="../style.css">
   <style>
-    :root {
-      --bg: #171717;
-      --panel: #202020;
-      --panel-2: #252525;
-      --text: #f2f0e9;
-      --muted: #aaa79f;
-      --soft: #d0cdc5;
-      --line: rgba(242, 240, 233, .18);
-      --accent: #e9d86b;
-      --page: min(1440px, calc(100% - 9vw));
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased; line-height: 1.55;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    button { font: inherit; }
-    ::selection { background: var(--accent); color: var(--bg); }
-    .wrap { width: var(--page); margin-inline: auto; }
-    .topbar {
-      position: sticky; top: 0; z-index: 20;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 24px; padding: 17px max(4.5vw, calc((100vw - 1440px) / 2));
-      border-bottom: 1px solid var(--line);
-      background: rgba(23,23,23,.91); backdrop-filter: blur(16px);
-    }
-    .wordmark { font-size: .82rem; font-weight: 760; letter-spacing: -.025em; }
-    .nav { display: flex; align-items: center; gap: clamp(18px, 3vw, 42px); }
-    .nav a { font-size: .75rem; color: var(--muted); transition: color .2s ease; }
-    .nav a:hover, .nav a:focus-visible { color: var(--accent); }
-    .nav .contact-link { color: var(--text); }
     .eyebrow, .section-label, .meta, .figure-no {
       font-size: .66rem; letter-spacing: .13em; text-transform: uppercase;
     }
@@ -73,7 +39,7 @@
     .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 35px; }
     .section-label { flex: 0 0 auto; }
     h2 { font-size: clamp(2.2rem, 5vw, 4.8rem); line-height: .98; letter-spacing: -.075em; font-weight: 680; }
-    .section-description { max-width: 390px; color: var(--muted); font-size: .84rem; }
+    .section-description { max-width: 520px; color: var(--muted); font-size: .84rem; }
     .overview-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; }
     .overview-card { padding: clamp(23px, 3.4vw, 44px); border: 1px solid var(--line); min-height: 235px; }
     .overview-card .meta { color: var(--muted); }
@@ -96,8 +62,6 @@
     figure:hover .figure-image img { transform: scale(1.015); }
     figcaption { display: flex; justify-content: space-between; gap: 15px; padding-top: 12px; color: var(--muted); font-size: .72rem; }
     figcaption strong { color: var(--text); font-weight: 560; }
-    .wide-figure { margin-top: 30px; }
-    .wide-figure .figure-image img { aspect-ratio: 16 / 9; }
     .lesson {
       display: grid; grid-template-columns: .75fr 1.25fr; gap: 35px;
       padding: clamp(25px, 4vw, 52px); background: var(--panel); border: 1px solid var(--line);
@@ -109,10 +73,6 @@
     .sources h3 { font-size: 1rem; margin-bottom: 15px; }
     .sources p { color: var(--muted); font-size: .76rem; margin-bottom: 10px; overflow-wrap: anywhere; }
     .sources a { text-decoration: underline; text-decoration-color: #777; text-underline-offset: 3px; }
-    .next-project { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding-block: 40px; border-top: 1px solid var(--line); }
-    .next-project .meta { color: var(--muted); }
-    .next-project a { color: var(--accent); font-size: .82rem; }
-    footer { border-top: 1px solid var(--line); padding: 22px 0 34px; display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .72rem; }
     .lightbox {
       position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center;
       padding: 4vw; background: rgba(0,0,0,.92); cursor: zoom-out;
@@ -124,38 +84,41 @@
       background: var(--panel); color: var(--text); padding: 9px 13px; cursor: pointer;
     }
 
-    /* ===== 3D Viewer styles ===== */
+    /* ===== Dual STEP viewers ===== */
     .viewer-section { padding-block: 88px; border-top: 1px solid var(--line); }
     .viewer-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 28px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
     }
     .viewer-card {
       border: 1px solid var(--line);
       background: var(--panel);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .viewer-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 14px 18px;
+      gap: 12px;
+      padding: 13px 16px;
       border-bottom: 1px solid var(--line);
       background: var(--panel-2);
     }
     .viewer-header h3 {
-      font-size: .95rem;
+      font-size: .92rem;
       letter-spacing: -.02em;
       font-weight: 600;
     }
-    .viewer-header .meta { color: var(--muted); font-size: .68rem; }
+    .viewer-header .meta { color: var(--muted); font-size: .66rem; margin-top: 2px; }
     .viewer-canvas-wrap {
       position: relative;
       width: 100%;
-      height: min(62vh, 560px);
+      height: min(48vh, 420px);
       background: #1a1a1a;
+      flex: 1;
     }
     .viewer-canvas-wrap canvas {
       display: block;
@@ -170,26 +133,27 @@
       justify-content: center;
       flex-direction: column;
       gap: 10px;
-      background: rgba(23,23,23,.85);
+      background: rgba(23,23,23,.88);
       color: var(--muted);
-      font-size: .82rem;
+      font-size: .8rem;
       pointer-events: none;
       transition: opacity .3s ease;
+      z-index: 2;
     }
-    .viewer-status.hidden { opacity: 0; pointer-events: none; }
+    .viewer-status.hidden { opacity: 0; }
     .viewer-status .spinner {
-      width: 28px; height: 28px;
+      width: 26px; height: 26px;
       border: 2px solid var(--line);
       border-top-color: var(--accent);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.75s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .viewer-controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      padding: 12px 16px;
+      gap: 7px;
+      padding: 10px 14px;
       border-top: 1px solid var(--line);
       background: var(--panel-2);
     }
@@ -197,9 +161,9 @@
       background: transparent;
       border: 1px solid var(--line);
       color: var(--soft);
-      padding: 6px 12px;
-      font-size: .72rem;
-      letter-spacing: .04em;
+      padding: 5px 11px;
+      font-size: .7rem;
+      letter-spacing: .03em;
       cursor: pointer;
       transition: border-color .2s, color .2s;
     }
@@ -209,17 +173,23 @@
       color: var(--accent);
     }
     .viewer-note {
-      margin-top: 18px;
+      margin-top: 20px;
       color: var(--muted);
       font-size: .78rem;
-      max-width: 640px;
+      max-width: 720px;
+      line-height: 1.55;
+    }
+    .viewer-note code {
+      font-size: .74rem;
+      background: var(--panel-2);
+      padding: 1px 5px;
+      border-radius: 3px;
     }
 
+    @media (max-width: 900px) {
+      .viewer-grid { grid-template-columns: 1fr; }
+    }
     @media (max-width: 760px) {
-      :root { --page: calc(100% - 40px); }
-      .topbar { padding: 15px 20px; }
-      .nav { gap: 15px; }
-      .nav a { font-size: .7rem; }
       .hero { padding-top: 75px; padding-bottom: 55px; }
       h1 { font-size: clamp(3.1rem, 14vw, 6.5rem); }
       .hero-bottom, .overview-grid, .lesson { grid-template-columns: 1fr; }
@@ -234,7 +204,7 @@
       .figure-image img { aspect-ratio: 4 / 3; }
       .image-caption { flex-direction: column; gap: 3px; }
       .next-project, footer { align-items: flex-start; flex-direction: column; }
-      .viewer-canvas-wrap { height: 48vh; }
+      .viewer-canvas-wrap { height: 42vh; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -294,44 +264,61 @@
       </div>
     </section>
 
-    <!-- ===== Interactive 3D Section ===== -->
+    <!-- ===== Dual Interactive 3D (STEP) ===== -->
     <section class="viewer-section" id="3d">
       <div class="wrap">
         <div class="section-head">
           <p class="section-label">Interactive / 02</p>
-          <h2>Explore the<br>assembly in 3D.</h2>
+          <h2>Explore both models<br>in 3D.</h2>
         </div>
-        <p class="section-description" style="max-width:520px;margin-bottom:28px">
-          The PCB assembly exported from KiCad as a STEP file. Drag to orbit, scroll to zoom, right-drag to pan.
+        <p class="section-description" style="margin-bottom:26px">
+          Both viewers load native STEP files in the browser (OpenCascade + Three.js). Drag to orbit, scroll to zoom, right-drag to pan.
         </p>
 
         <div class="viewer-grid">
+          <!-- PCB -->
           <div class="viewer-card">
             <div class="viewer-header">
               <div>
-                <h3>PCB Assembly — overdrive.step</h3>
-                <p class="meta">KiCad → STEP · ~1.0 MB · client-side tessellation</p>
+                <h3>PCB Assembly</h3>
+                <p class="meta">overdrive.step · KiCad</p>
               </div>
             </div>
             <div class="viewer-canvas-wrap" id="pcb-viewer">
               <div class="viewer-status" id="pcb-status">
                 <div class="spinner"></div>
-                <span>Loading STEP geometry…</span>
+                <span>Loading PCB STEP…</span>
               </div>
             </div>
             <div class="viewer-controls">
-              <button type="button" id="pcb-reset">Reset view</button>
-              <button type="button" id="pcb-wireframe">Toggle wireframe</button>
-              <button type="button" id="pcb-fit">Fit to view</button>
+              <button type="button" data-action="reset" data-target="pcb">Reset</button>
+              <button type="button" data-action="wireframe" data-target="pcb">Wireframe</button>
+              <button type="button" data-action="fit" data-target="pcb">Fit</button>
+            </div>
+          </div>
+
+          <!-- Enclosure -->
+          <div class="viewer-card">
+            <div class="viewer-header">
+              <div>
+                <h3>Enclosure</h3>
+                <p class="meta">enclosure.step · FreeCAD</p>
+              </div>
+            </div>
+            <div class="viewer-canvas-wrap" id="enc-viewer">
+              <div class="viewer-status" id="enc-status">
+                <div class="spinner"></div>
+                <span>Loading enclosure STEP…</span>
+              </div>
+            </div>
+            <div class="viewer-controls">
+              <button type="button" data-action="reset" data-target="enc">Reset</button>
+              <button type="button" data-action="wireframe" data-target="enc">Wireframe</button>
+              <button type="button" data-action="fit" data-target="enc">Fit</button>
             </div>
           </div>
         </div>
 
-        <p class="viewer-note">
-          The FreeCAD enclosure (enclosure.FCStd) can be added the same way after exporting it to STEP or GLB from FreeCAD
-          (File → Export → STEP or use the Mesh Design workbench for STL/GLB). Drop the exported file next to this page and
-          point a second viewer at it.
-        </p>
       </div>
     </section>
 
@@ -447,8 +434,14 @@
     </section>
 
     <div class="wrap next-project">
-      <div><p class="meta">Back to the collection</p><p style="font-size:1.35rem;letter-spacing:-.04em;margin-top:5px">More work across sound, systems & objects.</p></div>
-      <a href="../index.html#work">Explore selected work ↗</a>
+      <div>
+        <p class="meta">More selected work</p>
+        <p style="font-size:1.35rem;letter-spacing:-.04em;margin-top:5px">
+          Sound, systems & objects.
+        </p>
+      </div>
+
+      <a href="../index.html#work">Back to portfolio ↗</a>
     </div>
   </main>
 
@@ -462,7 +455,6 @@
     <img src="" alt="" id="lightbox-image">
   </div>
 
-  <!-- Three.js (module) + occt-import-js -->
   <script type="importmap">
   {
     "imports": {
@@ -500,193 +492,190 @@
         closeButton.focus();
       });
     });
-
     closeButton.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (event) => {
-      if (event.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
     });
 
-    /* ---------- STEP Viewer ---------- */
-    const container = document.getElementById('pcb-viewer');
-    const statusEl = document.getElementById('pcb-status');
-    if (!container) throw new Error('Viewer container not found');
+    /* ---------- Reusable STEP viewer factory ---------- */
+    function createStepViewer(opts) {
+      const { containerId, statusId, stepUrl, fallbackColor = 0x3a5f4a } = opts;
+      const container = document.getElementById(containerId);
+      const statusEl = document.getElementById(statusId);
+      if (!container) return null;
 
-    const width = container.clientWidth || 800;
-    const height = container.clientHeight || 500;
+      const width = container.clientWidth || 600;
+      const height = container.clientHeight || 400;
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1a1a1a);
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x1a1a1a);
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 5000);
-    camera.position.set(120, 90, 140);
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 5000);
+      camera.position.set(100, 80, 120);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(width, height);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      container.appendChild(renderer.domElement);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-    controls.target.set(0, 0, 0);
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
 
-    // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-    const dir1 = new THREE.DirectionalLight(0xffffff, 0.85);
-    dir1.position.set(80, 120, 60);
-    scene.add(dir1);
-    const dir2 = new THREE.DirectionalLight(0xffffff, 0.35);
-    dir2.position.set(-60, 40, -80);
-    scene.add(dir2);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+      const d1 = new THREE.DirectionalLight(0xffffff, 0.85);
+      d1.position.set(80, 120, 60);
+      scene.add(d1);
+      const d2 = new THREE.DirectionalLight(0xffffff, 0.35);
+      d2.position.set(-60, 40, -80);
+      scene.add(d2);
 
-    // Subtle grid
-    const grid = new THREE.GridHelper(200, 20, 0x333333, 0x2a2a2a);
-    grid.position.y = -5;
-    scene.add(grid);
+      const grid = new THREE.GridHelper(200, 20, 0x333333, 0x2a2a2a);
+      grid.position.y = -5;
+      scene.add(grid);
 
-    let modelGroup = new THREE.Group();
-    scene.add(modelGroup);
-    let wireframeMode = false;
-    let meshes = [];
+      const modelGroup = new THREE.Group();
+      scene.add(modelGroup);
+      let meshes = [];
+      let wireframeMode = false;
 
-    function setStatus(text, hide = false) {
-      if (!statusEl) return;
-      const span = statusEl.querySelector('span');
-      if (span) span.textContent = text;
-      statusEl.classList.toggle('hidden', hide);
-    }
-
-    function fitCameraToObject(object) {
-      const box = new THREE.Box3().setFromObject(object);
-      const size = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z, 1);
-      const fov = camera.fov * (Math.PI / 180);
-      let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-      cameraZ *= 1.7;
-      camera.position.set(center.x + cameraZ * 0.55, center.y + cameraZ * 0.4, center.z + cameraZ * 0.7);
-      controls.target.copy(center);
-      controls.update();
-    }
-
-    function buildMeshFromResult(resultMesh) {
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(resultMesh.attributes.position.array, 3));
-      if (resultMesh.attributes.normal) {
-        geometry.setAttribute('normal', new THREE.Float32BufferAttribute(resultMesh.attributes.normal.array, 3));
-      } else {
-        geometry.computeVertexNormals();
-      }
-      if (resultMesh.index) {
-        geometry.setIndex(resultMesh.index.array);
+      function setStatus(text, hide = false) {
+        if (!statusEl) return;
+        const span = statusEl.querySelector('span');
+        if (span) span.textContent = text;
+        statusEl.classList.toggle('hidden', hide);
       }
 
-      let color = 0x3a5f4a; // fallback PCB green
-      if (resultMesh.color && resultMesh.color.length >= 3) {
-        color = new THREE.Color(resultMesh.color[0], resultMesh.color[1], resultMesh.color[2]);
-      }
-
-      const material = new THREE.MeshStandardMaterial({
-        color: color,
-        metalness: 0.15,
-        roughness: 0.65,
-        side: THREE.DoubleSide
-      });
-
-      const mesh = new THREE.Mesh(geometry, material);
-      meshes.push(mesh);
-      return mesh;
-    }
-
-    async function loadStep(url) {
-      setStatus('Downloading STEP…');
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status} – is overdrive.step next to the HTML?`);
-        const buffer = await response.arrayBuffer();
-        const fileBuffer = new Uint8Array(buffer);
-
-        setStatus('Tessellating geometry (OpenCascade)…');
-
-        if (typeof occtimportjs !== 'function') {
-          throw new Error('occt-import-js failed to load');
-        }
-        const occt = await occtimportjs();
-
-        const result = occt.ReadStepFile(fileBuffer, {
-          linearDeflectionType: 'bounding_box_ratio',
-          linearDeflection: 0.0015,
-          angularDeflection: 0.5
-        });
-
-        if (!result || !result.meshes || result.meshes.length === 0) {
-          throw new Error('No meshes returned from STEP parser');
-        }
-
-        // Clear previous
-        while (modelGroup.children.length) {
-          const child = modelGroup.children[0];
-          modelGroup.remove(child);
-          if (child.geometry) child.geometry.dispose();
-          if (child.material) child.material.dispose();
-        }
-        meshes = [];
-
-        for (const resultMesh of result.meshes) {
-          modelGroup.add(buildMeshFromResult(resultMesh));
-        }
-
-        // Center the model at origin
+      function fit() {
+        if (!modelGroup.children.length) return;
         const box = new THREE.Box3().setFromObject(modelGroup);
+        const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
-        modelGroup.position.sub(center);
-
-        fitCameraToObject(modelGroup);
-        setStatus('Ready', true);
-      } catch (err) {
-        console.error(err);
-        setStatus('Failed to load STEP — see console');
+        const maxDim = Math.max(size.x, size.y, size.z, 1);
+        const fov = camera.fov * (Math.PI / 180);
+        let dist = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * 1.7;
+        camera.position.set(center.x + dist * 0.55, center.y + dist * 0.4, center.z + dist * 0.7);
+        controls.target.copy(center);
+        controls.update();
       }
+
+      function buildMesh(resultMesh) {
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(resultMesh.attributes.position.array, 3));
+        if (resultMesh.attributes.normal) {
+          geo.setAttribute('normal', new THREE.Float32BufferAttribute(resultMesh.attributes.normal.array, 3));
+        } else {
+          geo.computeVertexNormals();
+        }
+        if (resultMesh.index) geo.setIndex(resultMesh.index.array);
+
+        let color = fallbackColor;
+        if (resultMesh.color && resultMesh.color.length >= 3) {
+          color = new THREE.Color(resultMesh.color[0], resultMesh.color[1], resultMesh.color[2]);
+        }
+
+        const mat = new THREE.MeshStandardMaterial({
+          color, metalness: 0.15, roughness: 0.65, side: THREE.DoubleSide
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        meshes.push(mesh);
+        return mesh;
+      }
+
+      async function load() {
+        setStatus('Downloading STEP…');
+        try {
+          const res = await fetch(stepUrl);
+          if (!res.ok) throw new Error(`HTTP ${res.status} — is ${stepUrl} present?`);
+          const buf = new Uint8Array(await res.arrayBuffer());
+
+          setStatus('Tessellating (OpenCascade)…');
+          if (typeof occtimportjs !== 'function') throw new Error('occt-import-js not loaded');
+          const occt = await occtimportjs();
+          const result = occt.ReadStepFile(buf, {
+            linearDeflectionType: 'bounding_box_ratio',
+            linearDeflection: 0.0015,
+            angularDeflection: 0.5
+          });
+
+          if (!result?.meshes?.length) throw new Error('No meshes in STEP');
+
+          while (modelGroup.children.length) {
+            const c = modelGroup.children[0];
+            modelGroup.remove(c);
+            c.geometry?.dispose();
+            c.material?.dispose();
+          }
+          meshes = [];
+
+          for (const m of result.meshes) modelGroup.add(buildMesh(m));
+
+          const box = new THREE.Box3().setFromObject(modelGroup);
+          modelGroup.position.sub(box.getCenter(new THREE.Vector3()));
+          fit();
+          setStatus('Ready', true);
+        } catch (err) {
+          console.error(`[${containerId}]`, err);
+          setStatus(err.message || 'Failed to load STEP');
+        }
+      }
+
+      // Resize
+      new ResizeObserver(() => {
+        const w = container.clientWidth, h = container.clientHeight;
+        if (!w || !h) return;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }).observe(container);
+
+      // Loop
+      (function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      })();
+
+      load();
+
+      return {
+        fit,
+        toggleWireframe() {
+          wireframeMode = !wireframeMode;
+          meshes.forEach(m => { if (m.material) m.material.wireframe = wireframeMode; });
+        }
+      };
     }
 
-    // UI buttons
-    document.getElementById('pcb-reset')?.addEventListener('click', () => {
-      if (modelGroup.children.length) fitCameraToObject(modelGroup);
-    });
-    document.getElementById('pcb-fit')?.addEventListener('click', () => {
-      if (modelGroup.children.length) fitCameraToObject(modelGroup);
-    });
-    document.getElementById('pcb-wireframe')?.addEventListener('click', () => {
-      wireframeMode = !wireframeMode;
-      meshes.forEach(m => { if (m.material) m.material.wireframe = wireframeMode; });
-    });
+    // Create both viewers
+    const viewers = {
+      pcb: createStepViewer({
+        containerId: 'pcb-viewer',
+        statusId: 'pcb-status',
+        stepUrl: './overdrive.step',
+        fallbackColor: 0x3a5f4a
+      }),
+      enc: createStepViewer({
+        containerId: 'enc-viewer',
+        statusId: 'enc-status',
+        stepUrl: './enclosure.step',
+        fallbackColor: 0x6b6b6b   // neutral plastic grey
+      })
+    };
 
-    // Resize handling
-    const resizeObserver = new ResizeObserver(() => {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      if (w === 0 || h === 0) return;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+    // Wire control buttons
+    document.querySelectorAll('.viewer-controls button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        const action = btn.dataset.action;
+        const v = viewers[target];
+        if (!v) return;
+        if (action === 'reset' || action === 'fit') v.fit();
+        if (action === 'wireframe') v.toggleWireframe();
+      });
     });
-    resizeObserver.observe(container);
-
-    // Render loop
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Load the model (must be served from same origin)
-    loadStep('./overdrive.step');
   </script>
 </body>
 </html>
-

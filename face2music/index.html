@@ -1,176 +1,690 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face2Music - Wenda Zhang</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
+  <meta name="description" content="Face2Music — an experimental music-making interface that transforms facial movement into sound.">
+  <title>Face2Music — Ryan Zhang</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
 
-        body {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
+    img, video {
+      display: block;
+      max-width: 100%;
+    }
 
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
+    ::selection {
+      background: var(--accent);
+      color: var(--bg);
+    }
 
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+    .wrap {
+      width: var(--page);
+      margin-inline: auto;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
+    /* Hero */
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-        }
+    .hero {
+      padding-top: clamp(75px, 10vw, 145px);
+      padding-bottom: 80px;
+    }
 
-        nav ul li a:hover {
-            color: #ffd700;
-        }
+    .eyebrow,
+    .section-label,
+    .meta {
+      font-size: .66rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
 
-        .project {
-            padding: 6rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    .eyebrow,
+    .section-label {
+      color: var(--accent);
+    }
 
-        .project h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
+    .eyebrow {
+      margin-bottom: 26px;
+    }
 
-        .project img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
+    h1 {
+      max-width: 1250px;
+      font-size: clamp(4rem, 13vw, 11.5rem);
+      line-height: .84;
+      letter-spacing: -.095em;
+      font-weight: 740;
+    }
 
-        .project video {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: block;
-        }
+    h1 .muted-line {
+      display: block;
+      color: var(--muted);
+    }
 
-        .project p, .project li {
-            font-size: 1rem;
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(220px, .6fr);
+      gap: 36px;
+      align-items: end;
+      margin-top: clamp(45px, 7vw, 95px);
+    }
 
-        .project h2 {
-            font-size: 1.8rem;
-            margin: 1.5rem 0 1rem;
-        }
+    .intro {
+      max-width: 650px;
+      font-size: clamp(1rem, 1.5vw, 1.22rem);
+      color: #d4d1c9;
+      line-height: 1.7;
+    }
 
-        .project ul {
-            list-style: disc;
-            padding-left: 2rem;
-        }
+    .hero-note {
+      justify-self: end;
+      max-width: 300px;
+      color: var(--muted);
+      font-size: .78rem;
+    }
 
-        .project .download-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ffd700;
-            color: #000;
-            text-decoration: none;
-            border-radius: 4px;
-            margin: 1rem 0;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
+    .hero-note span {
+      display: block;
+      color: var(--text);
+      margin-bottom: 7px;
+    }
 
-        .project .download-btn:hover {
-            background-color: #e6c200;
-        }
+    .project-meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
 
-        @media (max-width: 768px) {
-            .project h1 {
-                font-size: 2rem;
-            }
+    .tag {
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--muted);
+      font-size: .7rem;
+    }
 
-            nav ul {
-                gap: 1rem;
-            }
+    /* Video & Media */
 
-            nav ul li a {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    .video-frame {
+      position: relative;
+      margin-top: 52px;
+      background: var(--panel);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .video-frame video,
+    .video-frame img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #111;
+    }
+
+    .media-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .7rem;
+    }
+
+    /* General sections */
+
+    .section {
+      padding-block: 90px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 38px;
+    }
+
+    h2 {
+      font-size: clamp(2.4rem, 6vw, 5.5rem);
+      line-height: .94;
+      letter-spacing: -.08em;
+      font-weight: 690;
+    }
+
+    h3 {
+      font-size: clamp(1.15rem, 2vw, 1.65rem);
+      line-height: 1.15;
+      letter-spacing: -.045em;
+      margin-top: 30px;
+      margin-bottom: 12px;
+    }
+
+    .section-description {
+      max-width: 390px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: minmax(150px, .42fr) minmax(0, 1fr);
+      gap: clamp(28px, 7vw, 110px);
+    }
+
+    .story-index {
+      color: var(--accent);
+      font-size: .68rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .story-content {
+      max-width: 780px;
+    }
+
+    .story-content p {
+      color: #c5c2ba;
+      font-size: .94rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .story-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .story-content strong {
+      color: var(--text);
+      font-weight: 560;
+    }
+
+    /* Guidelines / Steps list */
+
+    .guidelines {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .guidelines li {
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      counter-increment: steps;
+      color: #c5c2ba;
+      font-size: .94rem;
+    }
+
+    .guidelines li::before {
+      content: "0" counter(steps);
+      color: var(--accent);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+    }
+
+    /* Production details */
+
+    .production-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .production-item {
+      display: grid;
+      grid-template-columns: 70px minmax(150px, .65fr) minmax(0, 1.3fr);
+      gap: 24px;
+      align-items: start;
+      padding: 27px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .production-number {
+      color: var(--accent);
+      font-size: .72rem;
+    }
+
+    .production-item h3 {
+      margin-top: 0;
+    }
+
+    .production-item p {
+      color: #c5c2ba;
+      font-size: .85rem;
+      max-width: 590px;
+      margin-bottom: 0;
+    }
+
+    /* Download section */
+
+    .download-section {
+      margin-top: 42px;
+      padding: clamp(22px, 3.5vw, 42px);
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 13px 22px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: .85rem;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .download-link:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .download-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+
+    @media (max-width: 760px) {
+      :root {
+        --page: calc(100% - 40px);
+      }
+
+      .topbar {
+        padding: 15px 20px;
+      }
+
+      .nav {
+        gap: 15px;
+      }
+
+      .nav a {
+        font-size: .7rem;
+      }
+
+      .hero {
+        padding-top: 75px;
+        padding-bottom: 58px;
+      }
+
+      h1 {
+        font-size: clamp(3.6rem, 15vw, 7rem);
+      }
+
+      .hero-bottom {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 40px;
+      }
+
+      .hero-note {
+        justify-self: start;
+      }
+
+      .video-frame {
+        margin-top: 34px;
+      }
+
+      .video-frame video,
+      .video-frame img {
+        aspect-ratio: 4 / 3;
+      }
+
+      .section {
+        padding-block: 62px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .story-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .production-item {
+        grid-template-columns: 35px 1fr;
+        gap: 12px;
+      }
+
+      .production-item p {
+        grid-column: 2;
+      }
+
+      .next-project,
+      footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .media-caption {
+        flex-direction: column;
+        gap: 4px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">Wenda Zhang</div>
-        <ul>
-            <li><a href="../index.html#home">Home</a></li>
-            <li><a href="../index.html#portfolio">Portfolio</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
-        </ul>
-    </nav>
 
-    <section class="project">
-        <h1>Face2Music</h1>
-        <img src="../resources/face2music/face2music_full.png" alt="Face2Music Project">
-        <p><strong>Tags:</strong> Max/MSP, Sequencer, Karplus-Strong, FaceOSC, Loop</p>
-        <h2>Face2Music Overview</h2>
-        <p>Face2Music is a face-controlled sequencer powered by FaceOSC, a standalone desktop program that tracks facial features via camera, such as the coordinate of the user’s face relative to the screen, and transmits them over Open Sound Control (OSC). Specifically, the x position modulates the note’s brightness, the y position influences resonance, the distance from the camera adjusts the filter cutoff, and the mouth height determines sustain. The patch employs a randomized sequencer with an eight-note pool, reshuffled every fourth repetition, generating dynamic musical patterns. Additionally, the patch integrates a loop module facilitating the recording, playback, and pausing of three independent tracks.</p>
-        <h2>Guidelines</h2>
-        <ul>
-            <li>Download and run FaceOSC.exe.</li>
-            <li>Turn on the camera input.</li>
-            <li>Modify the sequencer and press Start.</li>
-            <li>Move around to obtain different timbres.</li>
-            <li>Make use of the three available loops.</li>
-            <li>Have fun!</li>
-        </ul>
-        <h2>Rationale</h2>
-        <p>Making music production accessible to beginners has always been one of my academic endeavors. This passion was sparked during my time volunteering as a music teacher for children at a local community center. Many of the kids, aged 7 to 8, struggled to connect with music and perceive its universality and possibility, much like I did at their age. In my earlier years, my exposure to music was limited to classical and pop, but hearing Guns N' Roses’ "Welcome to the Jungle" revealed how diverse and powerful music could be. This inspired me to create tools that lower barriers to music production, enabling children and beginners to explore their creativity without technical limitations, which is why Face2Music exists.</p>
-        <h2>Technical Implementation</h2>
-        <p>To make this idea work—using facial features to generate music—I first received messages from FaceOSC, scaled them to a proper range, and stored them in variables. While additional features like eyebrow height and nostril flare could be extracted, I selected the most readily adjustable parameters for optimal user interaction.</p>
-        <p>The randomized sequencer is implemented via a multislider, reshuffled using zl.scramble, with each note triggered by a metro set to 500 ms. After converting the notes to MIDI, they are routed to a Karplus-Strong algorithm to simulate realistic string sounds. This begins with a buffer of random noise using “rand~ 600” to emulate the initial energy of a pluck, followed by a onepole low-pass filter through averaging and feedback. Over time, this process replicates a real string’s decay, evolving from a complex, harmonic-rich sound to a simpler waveform that eventually fades out.</p>
-        <p>The resulting audio signal is played and sent to the patch’s looping and playback section, which enables dynamic audio manipulation through three independent loops (Loop 1, Loop 2, Loop 3), a Play/Pause control, and a Record function. Each loop uses a buffer~ to store audio, with a record~ object capturing sound when toggled via sel 0 1, while clocker ensures synchronized timing. The Play/Pause section uses three groove~ objects to play audio from the buffers, allowing users to start or pause the loops seamlessly while the Record section captures the overall output into a buffer~ loop.</p>
-        <button class="download-btn" onclick="downloadFile()">Download Max/MSP File</button>
-        <video controls>
-            <source src="../resources/face2music/face2music_explanation.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="../index.html">RYAN ZHANG</a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#about">About</a>
+      <a class="contact-link" href="../index.html#contact">Contact ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero wrap">
+      <p class="eyebrow">Interactive Music · Max/MSP</p>
+
+      <h1>
+        Face2
+        <span class="muted-line">Music.</span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="intro">
+          An experimental music-making interface that transforms facial
+          movement into sound, inviting users to explore musical expression
+          through interaction rather than traditional instruments.
+        </p>
+
+        <p class="hero-note">
+          <span>Interactive instrument</span>
+          Max/MSP · FaceOSC · Karplus–Strong Synthesis · Audio Loops
+        </p>
+      </div>
+
+      <div class="project-meta-tags">
+        <span class="tag">Max/MSP</span>
+        <span class="tag">FaceOSC</span>
+        <span class="tag">Sequencer</span>
+        <span class="tag">Karplus–Strong Synthesis</span>
+        <span class="tag">Audio Loops</span>
+      </div>
+
+      <figure class="video-frame">
+        <img
+          src="../resources/face2music/face2music_full.png"
+          alt="Face2Music Max/MSP patch and interface"
+        >
+      </figure>
+
+      <div class="media-caption">
+        <span>FACE2MUSIC — MAX/MSP PATCH INTERFACE</span>
+        <span>Facial tracking · Sequencing · Synthesis</span>
+      </div>
     </section>
-    <script>
-        function downloadFile() {
-            const link = document.createElement('a');
-            link.href = '../resources/face2music/Face2Music.maxpat';
-            link.download = 'face2music.maxpat';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
+
+    <!-- OVERVIEW -->
+    <section class="section" id="overview">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Overview / 01</p>
+          <p class="section-description">
+            Turning natural facial movement into dynamic musical patterns.
+          </p>
+        </div>
+
+        <div class="story-grid">
+          <p class="story-index">Facial tracking to sound</p>
+
+          <div class="story-content">
+            <p>
+              Face2Music is a face-controlled sequencer powered by FaceOSC, a
+              standalone desktop program that tracks facial features through a
+              camera and transmits them over Open Sound Control (OSC).
+            </p>
+
+            <p>
+              The horizontal position of the face modulates note brightness,
+              vertical position influences resonance, distance from the camera
+              adjusts the filter cutoff, and mouth height determines sustain.
+              Together, these controls let users shape the sound through natural
+              movements.
+            </p>
+
+            <p>
+              The patch uses a randomized sequencer with an eight-note pool,
+              reshuffled every fourth repetition to generate evolving musical
+              patterns. A looping module also supports recording, playback, and
+              pausing across three independent tracks.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW TO USE -->
+    <section class="section" id="guidelines">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Guide / 02</p>
+          <h2>Start making<br>music.</h2>
+        </div>
+
+        <div class="story-grid">
+          <p class="story-index">How to use</p>
+
+          <div class="story-content">
+            <p>
+              Follow these steps to explore the instrument and create your own
+              patterns.
+            </p>
+
+            <ol class="guidelines">
+              <li>Download and run FaceOSC.exe.</li>
+              <li>Turn on the camera input.</li>
+              <li>Adjust the sequencer and press Start.</li>
+              <li>Move your face to explore different timbres.</li>
+              <li>Record and experiment with the three available loops.</li>
+              <li>Combine your sounds and enjoy the result.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOTIVATION -->
+    <section class="section" id="rationale">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Motivation / 03</p>
+          <h2>Lowering barriers<br>to creation.</h2>
+        </div>
+
+        <div class="story-grid">
+          <p class="story-index">Why this project exists</p>
+
+          <div class="story-content">
+            <p>
+              Making music production accessible to beginners has long been one
+              of my academic interests. This passion began while volunteering
+              as a music teacher for children at a local community center.
+            </p>
+
+            <p>
+              Many of the children, aged seven to eight, struggled to connect
+              with music and recognize its universality and possibilities.
+              I understood that feeling: when I was younger, my own exposure
+              to music was limited to classical and pop. Hearing Guns N' Roses'
+              “Welcome to the Jungle” showed me how diverse and powerful music
+              could be.
+            </p>
+
+            <p>
+              Face2Music grew from the desire to make that sense of discovery
+              more accessible. By turning familiar physical movements into
+              musical controls, the project encourages children and beginners
+              to experiment, listen, and create without first needing to master
+              a traditional instrument.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGINEERING / TECHNICAL IMPLEMENTATION -->
+    <section class="section" id="implementation">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Engineering / 04</p>
+          <h2>Technical<br>implementation.</h2>
+        </div>
+
+        <div class="story-grid" style="margin-bottom: 45px;">
+          <p class="story-index">System architecture</p>
+
+          <div class="story-content">
+            <p>
+              The project integrates computer vision tracking via FaceOSC with
+              real-time digital signal processing inside Max/MSP, combining
+              custom OSC mapping, algorithmic sequencing, and physical modeling
+              synthesis.
+            </p>
+          </div>
+        </div>
+
+        <div class="production-list">
+          <article class="production-item">
+            <span class="production-number">01</span>
+            <h3>Facial tracking & mapping</h3>
+            <p>
+              FaceOSC sends facial tracking data through OSC. I receive these
+              messages in Max/MSP, scale values to usable ranges, and store
+              them in variables for intuitive sound control.
+            </p>
+          </article>
+
+          <article class="production-item">
+            <span class="production-number">02</span>
+            <h3>Randomized sequencing</h3>
+            <p>
+              The sequencer uses a multislider to store note values and
+              <strong>zl.scramble</strong> to reshuffle them every fourth repetition
+              triggered by a 500ms metro, converted to MIDI for synthesis.
+            </p>
+          </article>
+
+          <article class="production-item">
+            <span class="production-number">03</span>
+            <h3>Karplus–Strong synthesis</h3>
+            <p>
+              Synthesis begins with a random noise buffer generated by
+              <strong>rand~ 600</strong>, shaped by low-pass filtering and feedback
+              to simulate the decay of a plucked string.
+            </p>
+          </article>
+
+          <article class="production-item">
+            <span class="production-number">04</span>
+            <h3>Looping & playback</h3>
+            <p>
+              Outputs route to three independent tracks using <strong>buffer~</strong>,
+              <strong>record~</strong>, and <strong>groove~</strong> objects with
+              clocker coordination for precise recording and playback control.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMONSTRATION & DOWNLOAD -->
+    <section class="section" id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Demonstration / 05</p>
+          <h2>See how it works<br><span style="color:var(--muted)">& try the patch.</span></h2>
+        </div>
+
+        <div class="story-grid">
+          <p class="story-index">Video walkthrough</p>
+
+          <div class="story-content">
+            <p>
+              Watch the demonstration to see the Face2Music patch in action
+              and learn how its controls and looping system work.
+            </p>
+
+            <div class="video-frame" style="margin-top: 24px; margin-bottom: 40px;">
+              <video controls preload="metadata" playsinline>
+                <source
+                  src="../resources/face2music/face2music_explanation.mp4"
+                  type="video/mp4"
+                >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <h3>Try the patch yourself</h3>
+            <p>
+              Download the Max/MSP patch to explore the sequencer and experiment
+              with facial control and looping.
+            </p>
+            
+            <div class="download-section">
+              <p class="eyebrow" style="margin-bottom: 8px;">Max/MSP Patch File</p>
+              <a
+                class="download-link"
+                href="../resources/face2music/Face2Music.maxpat"
+                download="Face2Music.maxpat"
+              >
+                Download Max/MSP File <span aria-hidden="true">↗</span>
+              </a>
+              <p class="download-note">
+                FaceOSC and a compatible Max/MSP environment are required to use
+                the project.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER / NEXT PROJECT -->
+    <div class="wrap next-project">
+      <div>
+        <p class="meta">More selected work</p>
+        <p style="font-size:1.35rem;letter-spacing:-.04em;margin-top:5px">
+          Sound, systems & objects.
+        </p>
+      </div>
+
+      <a href="../index.html#work">Back to portfolio ↗</a>
+    </div>
+  </main>
+
+  <footer class="wrap">
+    <span>RYAN ZHANG · SELECTED WORK</span>
+    <a href="../index.html#contact">Get in touch ↗</a>
+  </footer>
 </body>
 </html>

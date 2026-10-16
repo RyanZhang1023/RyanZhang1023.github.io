@@ -1,148 +1,629 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mitsuha no Tsugaku - Wenda Zhang</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
+  <meta name="description" content="Mitsuha no Tsugaku — an acoustic transcription of the RADWIMPS song by Ryan Zhang.">
+  <title>Mitsuha no Tsugaku — Ryan Zhang</title>
 
-        body {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
+  <!-- Shared site-wide stylesheet -->
+  <link rel="stylesheet" href="../style.css">
 
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
+  <style>
+    /* Hero */
+    .hero {
+      padding-top: clamp(75px, 10vw, 145px);
+      padding-bottom: 80px;
+    }
 
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+    .eyebrow,
+    .section-label,
+    .meta {
+      font-size: .68rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
+    .eyebrow,
+    .section-label {
+      color: var(--accent);
+    }
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-        }
+    .eyebrow {
+      margin-bottom: 26px;
+    }
 
-        nav ul li a:hover {
-            color: #ffd700;
-        }
+    h1 {
+      max-width: 1250px;
+      font-size: clamp(3.5rem, 11vw, 9.5rem);
+      line-height: .86;
+      letter-spacing: -.09em;
+      font-weight: 740;
+    }
 
-        .project {
-            padding: 6rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    h1 .muted-line {
+      display: block;
+      color: var(--muted);
+    }
 
-        .project h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(220px, .6fr);
+      gap: 36px;
+      align-items: end;
+      margin-top: clamp(45px, 7vw, 95px);
+    }
 
-        .project video {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: block;
-        }
+    .intro {
+      max-width: 650px;
+      font-size: clamp(1rem, 1.5vw, 1.22rem);
+      color: var(--soft);
+      line-height: 1.7;
+    }
 
-        .project img {
-            width: 80%;
-            max-width: 80%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-            margin: 1rem auto;
-        }
+    .hero-note {
+      justify-self: end;
+      max-width: 300px;
+      color: var(--muted);
+      font-size: .78rem;
+    }
 
-        .project p {
-            font-size: 1rem;
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
+    .hero-note span {
+      display: block;
+      color: var(--text);
+      margin-bottom: 7px;
+    }
 
-        .project .figure-caption {
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
+    /* Custom WAV player */
+    .audio-section {
+      margin-top: 42px;
+      padding: clamp(22px, 3.5vw, 42px);
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
 
-        .project h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
+    .audio-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
 
-        .project audio {
-            width: 100%;
-            margin-bottom: 2rem;
-        }
+    .audio-top h2 {
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      line-height: 1;
+      letter-spacing: -.06em;
+      margin-top: 9px;
+    }
 
-        @media (max-width: 768px) {
-            .project h1 {
-                font-size: 2rem;
-            }
+    .audio-top p {
+      color: var(--muted);
+      font-size: .72rem;
+    }
 
-            .project img {
-                width: 100%;
-                max-width: 100%;
-            }
+    .audio-controls {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 20px;
+      align-items: center;
+    }
 
-            nav ul {
-                gap: 1rem;
-            }
+    .play-button {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: transform .2s ease, background .2s ease;
+    }
 
-            nav ul li a {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    .play-button:hover {
+      transform: scale(1.05);
+      background: #f4e68d;
+    }
+
+    .play-button:focus-visible,
+    .waveform:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .track-area {
+      min-width: 0;
+    }
+
+    .waveform {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 44px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .waveform span {
+      flex: 1;
+      min-width: 2px;
+      height: var(--height);
+      max-height: 40px;
+      background: #696861;
+      transition: background .15s ease;
+      border-radius: 2px;
+    }
+
+    .waveform span.played {
+      background: var(--accent);
+    }
+
+    .track-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .7rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .audio-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    /* Content sections */
+    .section {
+      padding-block: 90px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 38px;
+    }
+
+    h2 {
+      font-size: clamp(2.4rem, 6vw, 5.5rem);
+      line-height: .94;
+      letter-spacing: -.08em;
+      font-weight: 690;
+    }
+
+    .section-description {
+      max-width: 390px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: minmax(150px, .42fr) minmax(0, 1fr);
+      gap: clamp(28px, 7vw, 110px);
+    }
+
+    .story-index {
+      color: var(--accent);
+      font-size: .68rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .story-content {
+      max-width: 780px;
+    }
+
+    .story-content p {
+      color: #c5c2ba;
+      font-size: .94rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .story-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .story-content strong {
+      color: var(--text);
+      font-weight: 560;
+    }
+
+    /* Production details */
+    .production-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .production-item {
+      display: grid;
+      grid-template-columns: 70px minmax(150px, .65fr) minmax(0, 1.3fr);
+      gap: 24px;
+      align-items: start;
+      padding: 27px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .production-number {
+      color: var(--accent);
+      font-size: .72rem;
+    }
+
+    .production-item h3 {
+      font-size: clamp(1.15rem, 2vw, 1.65rem);
+      line-height: 1.15;
+      letter-spacing: -.045em;
+    }
+
+    .production-item p {
+      color: #c5c2ba;
+      font-size: .85rem;
+      max-width: 590px;
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        padding-top: 75px;
+        padding-bottom: 58px;
+      }
+
+      h1 {
+        font-size: clamp(3.4rem, 14vw, 7rem);
+      }
+
+      .hero-bottom {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 40px;
+      }
+
+      .hero-note {
+        justify-self: start;
+      }
+
+      .section {
+        padding-block: 62px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .story-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .production-item {
+        grid-template-columns: 35px 1fr;
+        gap: 12px;
+      }
+
+      .production-item p {
+        grid-column: 2;
+      }
+
+      .audio-top {
+        flex-direction: column;
+      }
+
+      .audio-controls {
+        gap: 13px;
+      }
+
+      .waveform {
+        gap: 2px;
+      }
+
+      .next-project {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">Wenda Zhang</div>
-        <ul>
-            <li><a href="../index.html#home">Home</a></li>
-            <li><a href="../index.html#portfolio">Portfolio</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
-        </ul>
-    </nav>
 
-    <section class="project">
-        <h1>Mitsuha no Tsugaku</h1>
-        <p><strong>Tags:</strong> Transcription, Acoustic</p>
-        <audio controls>
-            <source src="../resources/mitsuha_no_tsugaku/mitsuha_no_tsugaku.wav" type="audio/wav">
-            Your browser does not support the audio tag.
-        </audio>
-        <p>
-            This is a transcription of Japanese rock band RADWIMPS' "Mitsuha no Tsugaku." Composed by Yojiro Noda, this song is featured on the <i>Your Name. Original Soundtrack</i>. I used Kontakt for the strings and Ample for the acoustic guitars to reproduce the carefree spirit of the song.
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="../index.html">RYAN ZHANG</a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#about">About</a>
+      <a class="contact-link" href="../index.html#contact">Contact ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero wrap">
+      <p class="eyebrow">Transcription · Acoustic</p>
+
+      <h1>
+        Mitsuha no
+        <span class="muted-line">Tsugaku.</span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="intro">
+          A transcription of Japanese rock band RADWIMPS’ “Mitsuha no
+          Tsugaku,” featured on the <em>Your Name. Original Soundtrack</em>.
         </p>
+
+        <p class="hero-note">
+          <span>Acoustic transcription</span>
+          Strings · Acoustic guitars · Virtual instruments
+        </p>
+      </div>
+
+      <!-- Custom WAV player -->
+      <section class="audio-section" aria-label="Listen to the track">
+        <div class="audio-top">
+          <div>
+            <p class="eyebrow">Listen / 01</p>
+            <h2>The full transcription.</h2>
+          </div>
+          <p>WAV · Full-length audio</p>
+        </div>
+
+        <audio id="track"
+          src="../resources/mitsuha_no_tsugaku/mitsuha_no_tsugaku.wav"
+          preload="metadata"></audio>
+
+        <div class="audio-controls">
+          <button class="play-button" id="playButton"
+            type="button" aria-label="Play track">▶</button>
+
+          <div class="track-area">
+            <div class="waveform" id="waveform"
+              role="slider" tabindex="0"
+              aria-label="Seek through the audio"
+              aria-valuemin="0" aria-valuemax="100"
+              aria-valuenow="0"></div>
+
+            <div class="track-meta">
+              <span id="currentTime">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="audio-note">
+          Listen for the strings and acoustic guitars that carry the
+          song’s carefree spirit.
+        </p>
+      </section>
     </section>
+
+    <!-- BACKGROUND -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Background / 01</p>
+          <p class="section-description">
+            Transcribing a song from the Your Name. soundtrack.
+          </p>
+        </div>
+
+        <div class="story-grid">
+          <p class="story-index">The song</p>
+
+          <div class="story-content">
+            <p>
+              This is a transcription of Japanese rock band RADWIMPS’
+              “Mitsuha no Tsugaku.” Composed by Yojiro Noda, this song is
+              featured on the <em>Your Name. Original Soundtrack</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTION -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Production / 02</p>
+          <h2>Reproducing<br>the spirit.</h2>
+        </div>
+
+        <div class="story-grid" style="margin-bottom: 45px;">
+          <p class="story-index">Virtual instruments</p>
+
+          <div class="story-content">
+            <p>
+              I used <strong>Kontakt</strong> for the strings and
+              <strong>Ample</strong> for the acoustic guitars to reproduce
+              the carefree spirit of the song.
+            </p>
+          </div>
+        </div>
+
+        <div class="production-list">
+          <article class="production-item">
+            <span class="production-number">01</span>
+            <h3>Strings</h3>
+            <p>Kontakt used for the string parts.</p>
+          </article>
+
+          <article class="production-item">
+            <span class="production-number">02</span>
+            <h3>Acoustic guitars</h3>
+            <p>Ample used for the acoustic guitar parts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="wrap next-project">
+      <div>
+        <p class="meta">More selected work</p>
+        <p style="font-size:1.35rem;letter-spacing:-.04em;margin-top:5px">
+          Sound, systems & objects.
+        </p>
+      </div>
+
+      <a href="../index.html#work">Back to portfolio ↗</a>
+    </div>
+  </main>
+
+  <footer class="wrap">
+    <span>RYAN ZHANG · SELECTED WORK</span>
+    <a href="mailto:zwd071023@outlook.com">Get in touch ↗</a>
+  </footer>
+
+  <script>
+    (() => {
+      const audio = document.getElementById("track");
+      const playButton = document.getElementById("playButton");
+      const waveform = document.getElementById("waveform");
+      const currentTimeLabel = document.getElementById("currentTime");
+      const durationLabel = document.getElementById("duration");
+
+      // Decorative waveform bars, matching the other project pages.
+      // These bars are not measured from the actual audio waveform.
+      const heights = [
+        18, 29, 14, 35, 24, 12, 31, 40, 22, 16,
+        34, 26, 12, 38, 21, 30, 17, 39, 25, 14,
+        33, 20, 28, 40, 16, 24, 35, 12, 30, 19,
+        37, 23, 15, 32, 40, 21, 13, 28, 36, 18,
+        25, 39, 14, 30, 22, 34, 17, 40, 26, 12,
+        31, 20, 37, 15, 28, 40, 19, 33, 23, 14,
+        35, 25, 18, 39, 21, 30, 12, 36, 24, 17,
+        32, 40, 20, 13, 29, 37, 22, 15, 34, 25
+      ];
+
+      heights.forEach(height => {
+        const bar = document.createElement("span");
+        bar.style.setProperty("--height", height + "px");
+        waveform.appendChild(bar);
+      });
+
+      const bars = [...waveform.querySelectorAll("span")];
+
+      function formatTime(seconds) {
+        if (!Number.isFinite(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return mins + ":" + String(secs).padStart(2, "0");
+      }
+
+      function updateProgress() {
+        const progress = audio.duration
+          ? audio.currentTime / audio.duration
+          : 0;
+
+        const playedCount = Math.floor(progress * bars.length);
+
+        bars.forEach((bar, index) => {
+          bar.classList.toggle("played", index < playedCount);
+        });
+
+        waveform.setAttribute(
+          "aria-valuenow",
+          String(Math.round(progress * 100))
+        );
+
+        currentTimeLabel.textContent = formatTime(audio.currentTime);
+      }
+
+      function seekToPointer(event) {
+        if (!Number.isFinite(audio.duration)) return;
+
+        const rect = waveform.getBoundingClientRect();
+        const position = Math.max(
+          0,
+          Math.min(1, (event.clientX - rect.left) / rect.width)
+        );
+
+        audio.currentTime = position * audio.duration;
+      }
+
+      playButton.addEventListener("click", async () => {
+        if (audio.paused) {
+          try {
+            await audio.play();
+          } catch (error) {
+            console.error("Audio could not be played:", error);
+          }
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener("play", () => {
+        playButton.textContent = "Ⅱ";
+        playButton.setAttribute("aria-label", "Pause track");
+      });
+
+      audio.addEventListener("pause", () => {
+        playButton.textContent = "▶";
+        playButton.setAttribute("aria-label", "Play track");
+      });
+
+      audio.addEventListener("loadedmetadata", () => {
+        durationLabel.textContent = formatTime(audio.duration);
+      });
+
+      audio.addEventListener("timeupdate", updateProgress);
+      audio.addEventListener("seeked", updateProgress);
+
+      audio.addEventListener("ended", () => {
+        updateProgress();
+        playButton.textContent = "▶";
+        playButton.setAttribute("aria-label", "Play track");
+      });
+
+      waveform.addEventListener("click", seekToPointer);
+
+      waveform.addEventListener("keydown", event => {
+        if (!Number.isFinite(audio.duration)) return;
+
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          audio.currentTime = Math.min(
+            audio.duration,
+            audio.currentTime + 5
+          );
+        }
+
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          audio.currentTime = Math.max(0, audio.currentTime - 5);
+        }
+
+        if (event.key === "Home") {
+          audio.currentTime = 0;
+        }
+
+        if (event.key === "End") {
+          audio.currentTime = audio.duration;
+        }
+      });
+
+      audio.addEventListener("error", () => {
+        durationLabel.textContent = "Audio unavailable";
+      });
+    })();
+  </script>
 </body>
 </html>
