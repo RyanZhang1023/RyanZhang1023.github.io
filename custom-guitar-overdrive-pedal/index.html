@@ -96,11 +96,16 @@
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
             color: #fff;
+            margin-top: 2rem;
         }
 
         .project audio {
             width: 100%;
             margin-bottom: 2rem;
+        }
+
+        .sources p {
+            margin-bottom: 0.8rem;
         }
 
         @media (max-width: 768px) {
@@ -134,48 +139,46 @@
     </nav>
     <main class="project">
         <h1>Custom Guitar Overdrive Pedal</h1>
-        <p class="subtitle"></p>
-        <p class="tags"><strong>Tags:</strong> PCB Design, Electronics Assembly, CAD, 3D Printing</p>
-        <p>I built a custom guitar overdrive pedal based on the Klon Centaur circuit. This project involved PCB design in KiCad, electronic assembly and soldering using equipment at TechSpark, and enclosure design in FreeCAD. I fabricated the enclosure using 3D printing and incorporated heat-set threaded inserts to create reusable screw connections.</p>
+        <p>I built a custom guitar overdrive pedal, displayed in the figure below, based on Klon Centaur’s circuit. This project involved PCB design using Kicad, electronic assembly and soldering using utilities provided by TechSpark, and enclosure design using FreeCAD. I fabricated the enclosure using 3D printing and incorporated heat-set threaded inserts to create reusable screw connections.</p>
         <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-01.jpeg" alt="Final Product"><figcaption class="figure-caption">Figure 1. Final Product</figcaption></figure>
-        <p>I chose to reproduce the Klon Centaur because of its renowned craftsmanship and popularity among professional guitarists, including Jeff Beck and John Mayer. Developed by Bill Finnegan in the 1990s, the Klon Centaur became known for its “transparent” overdrive, which boosts a guitar’s signal while aiming to preserve its natural tonal character (Warren).</p>
+        <p>I chose to reproduce Klon Centaur because of its renowned craftsmanship that enticed numerous professional guitarists, such as Jeff Beck and John Mayer, to incorporate it in their pedalboards. The pedal, developed by Bill Finnegan in the 90s, pioneered “transparent” ovedrive by boosting gain without affecting a guitar’s natural tone (Warren).</p>
         <h2>PCB Design</h2>
-        <p>My pedal reproduces the Klon Centaur circuit, whose operation is analyzed in the online resource <i>Klon Centaur Analysis</i> (“Klon Centaur Analysis · ElectroSmash Archive”). I translated the reference circuit into a PCB layout, selecting component footprints and arranging components for physical assembly.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-02.png" alt="Circuit Design in KiCad"><figcaption class="figure-caption">Figure 2. Circuit Design in KiCad</figcaption></figure>
-        <p>Notably, the circuit does not provide true bypass. Even when the pedal is switched off, the signal still passes through the input buffer and two high-pass filters.</p>
-        <p>I assigned footprints to the electronic components, including NMJ6HCD2 jacks for audio input and output and a PJ-102AH connector for the power supply. I also selected a 3PDT footswitch, but I did not initially find a suitable footprint that matched the physical switch I purchased. This mismatch later created an assembly challenge.</p>
-        <p>I converted the schematic into a PCB layout and arranged the components on a rectangular board.</p>
+        <p>My pedal replicates Klon Centaur overdrive pedal, and its breakdown analysis is available online (“Klon Centaur Analysis · ElectroSmash Archive”). I translated the reference circuit into  a PCB layout, selecting component footprints and arranging them for physical assembly. The reproduced schematic is shown in Figure 2.</p>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-02.png" alt="Circuit Design in Kicad"><figcaption class="figure-caption">Figure 2. Circuit Design in Kicad</figcaption></figure>
+        <p>Notably, this schematic does not have a true bypass – that is, even when the pedal is turned off, the signal still passes through the input buffer and two high-pass filters.</p>
+        <p>Then, I assigned footprints for specific electronic components. For example, I used NMJ6HCD2 for the input and output jacks and implemented PJ-102AH for the power jack. I also selected a 3PDT footswitch, but I did not initially find a suitable footprint that matched the physical switch I purchased. This mismatch later created an assembly challenge.</p>
+        <p>I updated the PCB from schematic and made all the electronic component fit in a rectangular board, as shown in Figure 3.</p>
         <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-03.png" alt="Initial PCB Design"><figcaption class="figure-caption">Figure 3. Initial PCB Design</figcaption></figure>
-        <p>After reviewing the initial layout, I realized that several components were positioned too close together, which could make wiring and soldering difficult. I therefore revised the layout to provide more space between components and improve accessibility during assembly.</p>
+        <p>However, I quickly came to realize that in this design, multiple components were placed too close to each other, which might pose difficulties when it comes to wiring and soldering. Therefore, I designed another PCB, as shown in Figure 4 below, such that adequate spacing of electronics was ensured.</p>
         <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-04.png" alt="Final PCB Design"><figcaption class="figure-caption">Figure 4. Final PCB Design</figcaption></figure>
-        <p>The final PCB measured 90 mm × 100 mm. I routed most connections on the front copper layer and used vias where necessary to route connections around other traces. I also included two M3 mounting holes in opposite corners to secure the PCB inside the enclosure.</p>
+        <p>All the components fit in a 90mm x 100mm rectangular board. I routed most of the connections on the front copper layer and used vias where necessary to route connections around other traces. I also included two M3 mounting holes in opposite corners to secure the PCB inside the enclosure.</p>
         <h2>Electronic Assembly</h2>
-        <p>After completing the PCB design, I submitted the board to JLCPCB for fabrication and assembly. However, several components could not be assembled as part of the service.</p>
+        <p>After finishing the PCB design, I submitted it to be manufactured and assembled by JLCPCB. While most components could be assembled, some could not.</p>
         <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-05.jpeg" alt="Manufactured PCB"><figcaption class="figure-caption">Figure 5. Manufactured PCB</figcaption></figure>
-        <p>Three potentiometers, the footswitch, the MAX1044 IC, and two diodes were left unassembled. I purchased the remaining components from Tayda Electronics and used equipment at TechSpark to complete the remaining through-hole soldering and hardware integration.</p>
+        <p>As shown in Figure 5, three potentiometers, a switch, a MAX1044 chip, and two diodes were left unassembled. I bought the remaining components from Tayda Electronics and used equipment from TechSpark to complete the remaining through-hole and hardware integration.</p>
         <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-06.jpeg" alt="Soldering a Diode"><figcaption class="figure-caption">Figure 6. Soldering a Diode</figcaption></figure>
-        <p>During assembly, I discovered that the PCB footprint for the footswitch did not match the physical switch I had purchased. To work around this mismatch, I used nine female jumper wires to connect the switch terminals to the corresponding PCB connections.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-07.jpeg" alt="PCB After Soldering"><figcaption class="figure-caption">Figure 7. PCB After Soldering</figcaption></figure>
-        <p>I tested the pedal with my guitar, but it did not produce the expected overdrive effect. After reviewing the schematic and PCB connections, I discovered that two nets that should have been connected were treated as separate nets.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-08.png" alt="Disconnected Nets"><figcaption class="figure-caption">Figure 8. Disconnected Nets</figcaption></figure>
-        <p>Although +4.5V and +4V5 represent the same nominal voltage, KiCad treated them as different net labels. Consequently, the corresponding parts of the circuit were not electrically connected. To correct this issue, I soldered a wire to the back of the PCB to bridge the two nets.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-09.jpeg" alt="Jumper Wire Connecting the Two Nets"><figcaption class="figure-caption">Figure 9. Jumper Wire Connecting the Two Nets</figcaption></figure>
+        <p>During assembly, I discovered that the PCB footprint for the footswitch did not match the physical footswitch I had purchased. To work around this mismatch, I used nine female jumper wires to connect the switch terminals to the corresponding PCB connections, as shown in Figure 7 below.</p>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-07.jpeg" alt="PCB after Soldering"><figcaption class="figure-caption">Figure 7. PCB after Soldering</figcaption></figure>
+        <p>I tested the pedal out with my own guitar, but it did not produce the expected distortion. I looked back to check the schematics and found out that two nets that were supposed to be linked were separated.</p>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-08.png" alt="Nets Issue"><figcaption class="figure-caption">Figure 8. Nets Issue</figcaption></figure>
+        <p>Although +4.5V and +4V5 represent the same nominal voltage, KiCad treated them as different net labels, as shown in Figure 8. Consequently, the corresponding parts of the circuit were not electrically connected. To correct this issue, I soldered a wire to the back of the PCB to bridge the two nets, as shown in Figure 9.</p>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-09.jpeg" alt="Wire Soldering to Connect Nets"><figcaption class="figure-caption">Figure 9. Wire Soldering to Connect Nets</figcaption></figure>
         <p>I connected one end of the wire to a pad on the +4.5V net and the other end to a pad on the +4V5 net. After making this connection, I tested the pedal again and confirmed that it worked as expected.</p>
         <h2>Enclosure Design</h2>
-        <p>I designed a custom enclosure consisting of a box and a lid to protect the electronics and make the pedal easier to transport.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-10.png" alt="Enclosure Base Design"><figcaption class="figure-caption">Figure 10. Enclosure Base Design</figcaption></figure>
-        <p>I measured the PCB and used its dimensions to determine the enclosure’s internal layout. I incorporated U-shaped cutouts into two sides of the enclosure to accommodate the audio input and output jacks, along with a separate opening for the power jack. I designed two mounting posts on the enclosure floor to support and secure the PCB. I also incorporated screw holes at the four corners for heat-set threaded inserts, allowing the lid to be fastened securely.</p>
+        <p>I designed a box and a front lid for the guitar pedal to protect the electronics and make the pedal easier to transport.</p>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-10.png" alt="Box Design"><figcaption class="figure-caption">Figure 10. Box Design</figcaption></figure>
+        <p>In Figure 10, I measured the dimensions of the PCB to determine the internal layout of the box. The two sides of the box had a U-shape cutout to leave room for the input and output jacks. I incorporated a separate opening for the power jack. I designed two mounting posts on the enclosure floor to support and secure the PCB. Finally, I incorporated screw holes at the four corners to accommodate heat-set threaded inserts, allowing the lid to be fastened securely to the enclosure.</p>
         <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-11.png" alt="Lid Design"><figcaption class="figure-caption">Figure 11. Lid Design</figcaption></figure>
-        <p>I designed openings in the lid for the footswitch and potentiometers so that the controls could be accessed from outside the enclosure. However, the potentiometers I purchased were too short to protrude through the lid, leaving them recessed inside the enclosure.</p>
+        <p>As shown in Figure 11, I designed openings in the lid for the footswitch and potentiometers so that the controls could be accessed from outside the enclosure. However, the potentiometers I purchased were too short to protrude through the lid, leaving them recessed inside the enclosure.</p>
         <p>After completing the enclosure and lid designs in FreeCAD, I fabricated both parts using a 3D printer.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-12.jpeg" alt="3D-Printed Enclosure"><figcaption class="figure-caption">Figure 12. 3D-Printed Enclosure</figcaption></figure>
-        <p>Using a soldering iron, I installed six heat-set threaded inserts into the PLA enclosure. These inserts provide reusable threaded connections, allowing the enclosure to be opened and reassembled without relying on screws threaded directly into the plastic.</p>
-        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-13.jpeg" alt="Installing the PCB in the Enclosure"><figcaption class="figure-caption">Figure 13. Installing the PCB in the Enclosure</figcaption></figure>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-12.jpeg" alt="3D Printed Enclosure"><figcaption class="figure-caption">Figure 12. 3D Printed Enclosure</figcaption></figure>
+        <p>Using a soldering iron, I installed six heat-set threaded inserts into the PLA enclosure. These inserts provide reusable threaded connections, allowing the enclosure to be opened and reassembled without relying on screws threading directly into the plastic.</p>
+        <figure><img src="../resources/custom_guitar_overdrive_pedal/figure-13.jpeg" alt="Placing the PCB into the Enclosure"><figcaption class="figure-caption">Figure 13. Placing the PCB into the Enclosure</figcaption></figure>
         <p>Finally, I placed the PCB inside the enclosure and secured it with screws, completing the assembly of the pedal.</p>
         <div class="sources">
             <h2>Works Cited</h2>
-            <p>“Klon Centaur Analysis · ElectroSmash Archive.” <i>Mas-Effects.com</i>, 2022, <a href="https://electrosmash.mas-effects.com/klon-centaur-analysis.html">electrosmash.mas-effects.com/klon-centaur-analysis.html</a>. Accessed 16 Oct. 2026.</p>
-            <p>Warren, West. “Builder Profile: Klon’s Bill Finnegan.” <i>Premier Guitar</i>, 21 Jan. 2014, <a href="https://www.premierguitar.com/gear/bill-finnegan-klon">premierguitar.com/gear/bill-finnegan-klon</a>. Accessed 16 Oct. 2026.</p>
+            <p>“Klon Centaur Analysis · ElectroSmash Archive.” <i>Mas-Effects.Com</i>, 2022, <a href="https://electrosmash.mas-effects.com/klon-centaur-analysis.html">electrosmash.mas-effects.com/klon-centaur-analysis.html</a>. Accessed 16 Oct. 2026.</p>
+            <p>Warren, West. ‘Builder Profile: Klon’s Bill Finnegan’. <i>Premier Guitar</i>, 21 Jan. 2014, <a href="www.premierguitar.com/gear/bill-finnegan-klon">www.premierguitar.com/gear/bill-finnegan-klon</a>. Accessed 16 Oct. 2026.</p>
         </div>
     </main>
 </body>
