@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pocket Prism - Wenda Zhang</title>
+    <title>Lost in Rio - Wenda Zhang</title>
     <style>
         * {
             margin: 0;
@@ -62,21 +62,11 @@
             margin-bottom: 1rem;
         }
 
-        .project video {
+        .project img {
             width: 100%;
             height: auto;
             border-radius: 8px;
             margin-bottom: 1rem;
-            display: block;
-        }
-
-        .project img {
-            width: 80%;
-            max-width: 80%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-            margin: 1rem auto;
         }
 
         .project p {
@@ -86,31 +76,16 @@
             margin-bottom: 1rem;
         }
 
-        .project .figure-caption {
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
-
-        .project h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
-
-        .project audio {
+        .project video {
             width: 100%;
-            margin-bottom: 2rem;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
 
         @media (max-width: 768px) {
             .project h1 {
                 font-size: 2rem;
-            }
-
-            .project img {
-                width: 100%;
-                max-width: 100%;
             }
 
             nav ul {
@@ -134,12 +109,22 @@
     </nav>
 
     <section class="project">
-        <h1>Pocket Prism</h1>
+        <h1>Forbes Avenue</h1>
+        <p><strong>Tags:</strong> Original, Midwest Emo, Sampling, Guitar</p>
         <video controls>
-            <source src="../resources/pocket_prism.mp4" type="video/mp4">
+            <source src="../resources/forbes_avenue.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <p>“Pocket Prism” is an original funk piece inspired by Cory Wong’s live show at Shanghai’s Bandai Namco Dream Hall on June 11, 2024. Drawing inspiration from its groovy bassline and stylistic brass, I composed a similar piece trying to replicate the rhythmic feature of funk music while adding dynamics via chorus. Instrumental layering is achieved using electric piano and brass, which specifies the chord progression. For the guitar, I experimented with shredding to craft intricate melodies. Together, this piece captures the rhythmic groove and infectious energy of funk.</p>
+        <audio controls>
+            <source src="../resources/forbes_avenue.wav" type="audio/wav">
+            Your browser does not support the audio tag.
+        </audio>
+        <p>
+            I composed this midwest emo instrumental song during my first month at Carnegie Mellon University, a period of transition from the bustling streets of Shanghai to the more subdued atmosphere of Pittsburgh. This was also an opportunity for me to live on my own and to come to recognize who I am, what I like, and what kind of life is best for me. The piece was an attempt to capture the tranquility of everyday life at Pittsburgh. Its sound reflects the introspective nature of the transition, expressing solitude, nostalgia, and quiet contentment.
+        </p>
+        <p>
+            I recorded 10 guitar tracks using my Fender Telecaster Deluxe, which I brought with me, and used Neural DSP Cory Wong Archetype plugin to create a warm tone. I EQ'd the guitars to boost the low-mid frequencies and applied compression when needed. I doubled guitars and panned the tracks 100% to the left and right in the chorus to create a wall of sound, enhancing the stereo image and contrasting with the more intimate passages of the arrangement. I sent guitar tracks to a shared reverb bus in various dry/wet ratio to glue them together while being aware to not make them sound too muddy because mid frequencies will build up. I also reversed a guitar recording to create an atmospheric texture that adds movement to the arrangement.
+        </p>
     </section>
 </body>
 </html>
