@@ -186,6 +186,16 @@
       border-radius: 3px;
     }
 
+
+    /* ===== Demo video ===== */
+    .demo-frame { position: relative; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
+    .demo-frame video {
+      display: block; width: 100%; max-height: 760px; aspect-ratio: 16 / 9;
+      object-fit: contain; background: #111;
+    }
+    .demo-caption { display: flex; justify-content: space-between; gap: 20px; margin-top: 11px; color: var(--muted); font-size: .72rem; }
+    .demo-caption strong { color: var(--text); font-weight: 560; }
+
     @media (max-width: 900px) {
       .viewer-grid { grid-template-columns: 1fr; }
     }
@@ -202,7 +212,7 @@
       .story { grid-template-columns: 1fr; gap: 14px; }
       .figure-grid { grid-template-columns: 1fr; gap: 28px; }
       .figure-image img { aspect-ratio: 4 / 3; }
-      .image-caption { flex-direction: column; gap: 3px; }
+      .image-caption, .demo-caption { flex-direction: column; gap: 3px; }
       .next-project, footer { align-items: flex-start; flex-direction: column; }
       .viewer-canvas-wrap { height: 42vh; }
     }
@@ -412,10 +422,31 @@
       </div>
     </section>
 
+    <!-- ===== Demo video ===== -->
+    <section class="section" id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Demo / 04</p>
+          <h2>Hear it<br><span style="color:var(--muted)">in action.</span></h2>
+        </div>
+        <p class="section-description" style="margin-bottom:26px">
+          The finished pedal, tested with Fender Telecaster Deluxe. Turn the sound on.
+        </p>
+        <figure class="demo-frame">
+          <video controls preload="metadata" playsinline aria-label="Demo of the custom guitar overdrive pedal">
+            <source src="../resources/custom_guitar_overdrive_pedal/pedal_demo.mov" type="video/quicktime">
+            <source src="../resources/custom_guitar_overdrive_pedal/pedal_demo.mov" type="video/mp4">
+            Your browser can’t play this video. <a href="../resources/custom_guitar_overdrive_pedal/pedal_demo.mov">Download the demo ↗</a>
+          </video>
+        </figure>
+        <div class="demo-caption"><strong>Pedal demo</strong><span>Final build · Live test</span></div>
+      </div>
+    </section>
+
     <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <p class="section-label">Reflection / 04</p>
+          <p class="section-label">Reflection / 05</p>
           <h2>What the build<br><span style="color:var(--muted)">taught me.</span></h2>
         </div>
         <div class="lesson">
